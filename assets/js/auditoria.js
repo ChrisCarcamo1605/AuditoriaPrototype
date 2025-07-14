@@ -1,8 +1,6 @@
-window.addEventListener("load",()=> loadErrors())
+window.addEventListener("load", () => loadDefectos());
 
-
-
-class Error {
+class Defecto {
     errorCode;
     errorDescription;
     quantity;
@@ -14,171 +12,184 @@ class Error {
     }
 }
 
-const erroresFijos = [
-    { codigo: "E001", descripcion: "Error de documentación" },
+const defectosFijos = [
+    { codigo: "E001", descripcion: "defecto de documentación" },
     { codigo: "E002", descripcion: "Fallo en procedimiento" },
     { codigo: "E003", descripcion: "Incumplimiento de seguridad" },
-    { codigo: "E004", descripcion: "Error de etiquetado" },
+    { codigo: "E004", descripcion: "defecto de etiquetado" },
     { codigo: "E005", descripcion: "Material incorrecto" },
     { codigo: "E006", descripcion: "Falta de limpieza" },
     { codigo: "E007", descripcion: "Equipo defectuoso" }
 ];
 
+//Initialize defecto search and list
+let defectosGuardados = [];
+const defectoSearch = document.getElementById('DefectoSearch');
+const defectoList = document.getElementById('DefectoList');
+const defectoCodeField = document.getElementById('DefectoCode');
 
-
-//Initialize error search and list
-let errorListed = [];
-const errorSearch = document.getElementById('errorSearch');
-const errorList = document.getElementById('errorList');
-const errorCodeField = document.getElementById('errorCode');
-
-errorSearch.addEventListener('input', function () {
+defectoSearch.addEventListener('input', function () {
     const query = this.value.toLowerCase();
-    errorList.innerHTML = '';
+    defectoList.innerHTML = '';
 
     if (query.length === 0) return;
-    const filtrados = erroresFijos.filter(e => e.descripcion.toLowerCase().includes(query));
+    const filtrados = defectosFijos.filter(e => e.descripcion.toLowerCase().includes(query));
 
-    filtrados.forEach(error => {
+    filtrados.forEach(defecto => {
         const item = document.createElement('button');
         item.type = 'button';
         item.className = 'list-group-item list-group-item-action';
-        item.textContent = `${error.descripcion} (${error.codigo})`;
+        item.textContent = `${defecto.descripcion} (${defecto.codigo})`;
         item.onclick = () => {
-            errorSearch.value = error.descripcion;
-            errorCodeField.value = error.codigo;
-            errorList.innerHTML = '';
+            defectoSearch.value = defecto.descripcion;
+            defectoCodeField.value = defecto.codigo;
+            defectoList.innerHTML = '';
         };
-        errorList.appendChild(item);
+        defectoList.appendChild(item);
     });
 });
 
+// Add event listener to the button to add defectos
+let addDefectoBtn = document.getElementById('addDefecto-btn');
+addDefectoBtn.addEventListener('click', function () {
+    let defectoCode = defectoCodeField.value;
+    let defectoDescription = defectoSearch.value;
 
-// Add event listener to the button to add errors
-let addErrorBtn = document.getElementById('addError-btn');
-addErrorBtn.addEventListener('click', function () {
-    let errorCode = document.getElementById('errorCode').value;
-    let errorDescription = document.getElementById('errorSearch').value;
+    if (defectoCode && defectoDescription) {
+        setDefectoToArray(new Defecto(defectoCode, defectoDescription, 1));
+        defectoCodeField.value = '';
+        defectoSearch.value = '';
+        defectoList.innerHTML = ''; // Clear the list after adding
 
-    if (errorCode && errorDescription) {
-
-
-        setErrorToArray(new Error(errorCode, errorDescription, 1));
-        errorCodeField.value = '';
-        errorSearch.value = '';
-        errorList.innerHTML = ''; // Clear the list after adding
-        console.log("añadiendo otro");
-
-        let modalElement = document.querySelector('#errorFormModal');
+        let modalElement = document.querySelector('#DefectoFormModal');
         if (modalElement) {
             const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            console.log(modalInstance)
             modalInstance.hide();
         }
 
-        loadErrors();
+        loadDefectos();
 
     } else {
         alert('Por favor, completa todos los campos.');
     }
 });
 
+// Function to load defectos from localStorage and display them
+let loadDefectos = () => {
+    document.querySelector(".main__defectos-container").innerHTML = '';
+    defectosGuardados = [];
+    let defectos = localStorage.getItem('defectosGuardados');
 
-
-// Function to load errors from localStorage and display them
-let loadErrors = () => {
-    document.querySelector(".main__errors-container").innerHTML = '';
-    errorListed = [];
-    let errors = localStorage.getItem('errorListed');
-    console.log("errors: " + errors)
-
-    if (errors) {
-        errorListed = JSON.parse(errors);
-        console.log("errorListed: ", errorListed)
+    if (defectos) {
+        defectosGuardados = JSON.parse(defectos);
 
         // If the parsed value is not an array, wrap it in an array
-        if (!Array.isArray(errorListed)) {
-            errorListed = [errorListed];
+        if (!Array.isArray(defectosGuardados)) {
+            defectosGuardados = [defectosGuardados];
         }
 
-        errorListed.forEach(error => { loadErrorHtml(error) });
+        defectosGuardados.forEach(defecto => { loadDefectoHtml(defecto) });
     } else {
         return;
     }
 }
 
-// Function to create and display an error HTML element
-let loadErrorHtml = (error) => {
-    let newError = document.createElement('div');
-    newError.className = 'error_data-group';
-    newError.innerHTML = `  
-                                    <div class="error__data-container"> 
-                                        <label class="error__title">Error:</label>
-                                        <label class="error__uneditable-text">${error.errorDescription}</label>
-                                    </div>
-                                    <div class="error__data-container">
-                                        <label class="error__title">Codigo:</label>
-                                        <label class="error__uneditable-text">${error.errorCode}</label>
-                                    </div>
-                                    <input class="error__input" type="number" id="quantity" placeholder="Puntos Penalizados" value="${error.quantity}">
-                                `;
+// Function to create and display a defecto HTML element
+let loadDefectoHtml = (defecto) => {
+    let newDefecto = document.createElement('div');
+    newDefecto.className = 'defecto_data-group';
+    newDefecto.innerHTML = `  
+        <div class="defecto__data-container"> 
+            <label class="defecto__title">Defecto:</label>
+            <label class="defecto__uneditable-text">${defecto.errorDescription}</label>
+        </div>
+        <div class="defecto__data-container">
+            <label class="defecto__title">Código:</label>
+            <label class="defecto__uneditable-text">${defecto.errorCode}</label>
+        </div>
+        <input class="defecto__input" type="number" id="quantity" placeholder="Puntos Penalizados" value="${defecto.quantity}">
+    `;
 
     let divButtons = document.createElement('div');
-    divButtons.className = 'error__container-buttons';
+    divButtons.className = 'defecto__container-buttons';
 
     let deleteBtn = document.createElement('ion-icon');
     deleteBtn.setAttribute('name', 'trash-outline');
     deleteBtn.addEventListener('click', function () {
-        newError.remove();
-        removeErrorFromArray(error.errorCode);
+        newDefecto.remove();
+        removeDefectoFromArray(defecto.errorCode);
     });
 
-
     divButtons.appendChild(deleteBtn);
-    newError.appendChild(divButtons)
+    newDefecto.appendChild(divButtons);
 
-    document.querySelector('.main__errors-container').appendChild(newError);
+    document.querySelector('.main__defectos-container').appendChild(newDefecto);
 };
 
-
-// Function to add a new error to the localStorage array
-function setErrorToArray(newError) {
-
-    errorListed = JSON.parse(localStorage.getItem('errorListed')) || [];
-    const existingErrorIndex = errorListed.findIndex(error => error.errorCode === newError.errorCode);
-    if (existingErrorIndex !== -1) {
-        errorListed[existingErrorIndex].quantity += 1;
-    } else {
-        errorListed.push(newError);
+// Function to add a new defecto to the localStorage array
+function setDefectoToArray(newDefecto) {
+    let defectosGuardados = [];
+    let stored = localStorage.getItem('defectosGuardados');
+    if (stored) {
+        try {
+            defectosGuardados = JSON.parse(stored);
+            if (!Array.isArray(defectosGuardados)) defectosGuardados = [];
+        } catch {
+            defectosGuardados = [];
+        }
     }
-    localStorage.setItem('errorListed', JSON.stringify(errorListed));
 
+    const existingDefectoIndex = defectosGuardados.findIndex(defecto => defecto.errorCode === newDefecto.errorCode);
+    if (existingDefectoIndex !== -1) {
+        defectosGuardados[existingDefectoIndex].quantity += 1;
+    } else {
+        defectosGuardados.push(newDefecto);
+    }
+    localStorage.setItem('defectosGuardados', JSON.stringify(defectosGuardados));
 }
 
-// Function to clear all errors from localStorage and the displayed list
-function clearErrorsArray() {
-    localStorage.removeItem('errorListed');
-    errorListed = [];
-    document.querySelector('.main__errors-container').innerHTML = '';
+// Function to clear all defectos from localStorage and the displayed list
+function clearDefectosArray() {
+    localStorage.removeItem('defectosGuardados');
+    defectosGuardados = [];
+    document.querySelector('.main__Defectos-container').innerHTML = '';
 }
 
-// Function to remove a specific error from the localStorage array
-function removeErrorFromArray(errorCode) {
-    errorListed = JSON.parse(localStorage.getItem('errorListed')) || [];
-    errorListed = errorListed.filter(error => error.errorCode !== errorCode);
-    localStorage.setItem('errorListed', JSON.stringify(errorListed));
+// Function to remove a specific defecto from the localStorage array
+function removeDefectoFromArray(errorCode) {
+    let defectosGuardados = [];
+    let stored = localStorage.getItem('defectosGuardados');
+    if (stored) {
+        try {
+            defectosGuardados = JSON.parse(stored);
+            if (!Array.isArray(defectosGuardados)) defectosGuardados = [];
+        } catch {
+            defectosGuardados = [];
+        }
+    }
+    defectosGuardados = defectosGuardados.filter(defecto => defecto.errorCode !== errorCode);
+    localStorage.setItem('defectosGuardados', JSON.stringify(defectosGuardados));
 }
 
-
-function errorExists(errorCode) {
-    return errorListed.some(error => error.errorCode === errorCode);
+function defectoExists(errorCode) {
+    let defectosGuardados = [];
+    let stored = localStorage.getItem('defectosGuardados');
+    if (stored) {
+        try {
+            defectosGuardados = JSON.parse(stored);
+            if (!Array.isArray(defectosGuardados)) defectosGuardados = [];
+        } catch {
+            defectosGuardados = [];
+        }
+    }
+    return defectosGuardados.some(defecto => defecto.errorCode === errorCode);
 }
 
-// Function to clear all errors from the displayed list
-let clearErrorsBtn = document.getElementById('clearErrors-btn');
-clearErrorsBtn.addEventListener('click', function () {
-    clearErrorsArray();
-    document.querySelector('.main__errors-container').innerHTML = '';
+// Function to clear all defectos from the displayed list
+let clearDefectosBtn = document.getElementById('clearDefectos-btn');
+clearDefectosBtn.addEventListener('click', function () {
+    clearDefectosArray();
+    document.querySelector('.main__Defectos-container').innerHTML = '';
 });
 
 

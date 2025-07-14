@@ -71,16 +71,16 @@
 
                 <div class="data__actions">
                     <button class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                        data-bs-target="#errorFormModal">Agregar
-                        Error</button>
+                        data-bs-target="#DefectoFormModal">Agregar
+                        Defecto</button>
 
-                    <button class="btn btn-danger btn-lg" id="clearErrors-btn">Limpiar Errores</button>
+                    <button class="btn btn-danger btn-lg" id="clearDefectos-btn">Limpiar Defectos</button>
                 </div>
             </div>
             <hr>
 
-            <div class="main__errors-container">
-                <!-- Aquí se cargarán los errores -->
+            <div class="main__defectos-container">
+                <!-- Aquí se cargarán los Defectos -->
             </div>
 
             <div class="main__button-container">
@@ -91,34 +91,34 @@
 
     <!-- Modal -->
 
-    <div class="modal fade" id="errorFormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="DefectoFormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Error</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Defecto</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="modal__form">
                         <div class="form-group">
-                            <label for="errorCode">Código del Error</label>
-                            <input type="text" class="form-control" id="errorCode"
-                                placeholder="Ingrese el código del error" readonly>
+                            <label for="DefectoCode">Código del Defecto</label>
+                            <input type="text" class="form-control unusable__input" id="DefectoCode"
+                                placeholder="#" readonly>
                         </div>
 
                         <div class="form-group mt-3">
-                            <label for="errorSearch">Buscar Error</label>
-                            <input type="text" class="form-control" id="errorSearch" placeholder="Buscar error...">
-                            <div class="list-group mt-2" id="errorList" style="max-height: 150px; overflow-y: auto;">
-                                <!-- Los errores sugeridos aparecerán aquí -->
+                            <label for="DefectoSearch">Buscar Defecto</label>
+                            <input type="text" class="form-control" id="DefectoSearch" placeholder="defecto...">
+                            <div class="list-group mt-2" id="DefectoList" style="max-height: 150px; overflow-y: auto;">
+                                <!-- Los Defectos sugeridos aparecerán aquí -->
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="addError-btn" type="button" class="btn btn-primary">Agregar error</button>
+                        <button id="addDefecto-btn" type="button" class="btn btn-primary">Agregar defecto</button>
                     </div>
                 </div>
             </div>
