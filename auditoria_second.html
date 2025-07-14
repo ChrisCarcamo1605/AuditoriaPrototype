@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoria Prototipo</title>
+    <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <script src="/assets/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="/assets/js/auditoria.js" defer></script>
+
+</head>
+
+<body class="bg-light">
+
+    <div class="layout">
+        <div class="main__header">
+            <div class="main__header-title">
+                <h1 class="main__title"> <a href="index.html">American Industrial Park</a></h1>
+            </div>
+
+            <div class="header__navbar-container bg-light-subtle">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.html" aria-current="page"
+                                        href="Auditoria.html">Inicio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="Auditoria.html">Auditorias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Generar Reporte</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Cerrar Sessión</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="layout__main">
+
+            <div class="main__data">
+                <div class="data__container">
+                    <label class="data__title">
+                        <h2>PPRC:</h2>
+                    </label>
+                    <label class="data__data">H21S</label>
+                </div>
+
+                <div class="data__container">
+                    <label class="data__title">
+                        <h2>Puntos en Total:</h2>
+                    </label>
+                    <label class="data__data">12</label>
+                </div>
+
+                <div class="data__actions">
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#errorFormModal">Agregar
+                        Error</button>
+
+                    <button class="btn btn-danger btn-lg" id="clearErrors-btn">Limpiar Errores</button>
+                </div>
+            </div>
+            <hr>
+
+            <div class="main__errors-container">
+                <!-- Aquí se cargarán los errores -->
+            </div>
+
+            <div class="main__button-container">
+                <button type="submit" class="btn btn-secondary btn-lg">Terminar Auditoria</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="errorFormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Error</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal__form">
+                        <div class="form-group">
+                            <label for="errorCode">Código del Error</label>
+                            <input type="text" class="form-control" id="errorCode"
+                                placeholder="Ingrese el código del error" readonly>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="errorSearch">Buscar Error</label>
+                            <input type="text" class="form-control" id="errorSearch" placeholder="Buscar error...">
+                            <div class="list-group mt-2" id="errorList" style="max-height: 150px; overflow-y: auto;">
+                                <!-- Los errores sugeridos aparecerán aquí -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="addError-btn" type="button" class="btn btn-primary">Agregar error</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <footer class="main__footer">
+            <div class="footer__text-container">
+                <p class="footer__text">© 2025 Christian Carcamo. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+</body>
+
+
+
+</html>
